@@ -21,3 +21,13 @@ function openOverlay() {
 function closeOverlay() {
     document.getElementById("overlay").style.width = "0%";
 }
+
+function toggle() {
+    $(this).children('i').toggleClass('fa-pencil');
+    $('.form').animate({
+        height: "toggle",
+        'padding-top': 'toggle',
+        'padding-bottom': 'toggle',
+        opacity: "toggle"
+    }, "slow");
+}

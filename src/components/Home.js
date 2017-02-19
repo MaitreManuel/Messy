@@ -38,7 +38,7 @@ var Home = React.createClass({
                 </div>
 
                 <div className="module form-module">
-                  <div><LogSign validate={ this.validate }/></div>
+                  <div><LogSign validate={this.validate}/></div>
                 </div>
             </div>
         );

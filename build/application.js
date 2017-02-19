@@ -21592,13 +21592,19 @@
 	        toastr.warning('Support non trouvé', 'Erreur 404');
 	    },
 
+	    // need because jQuery gone I don't know why and without
+	    // no acces to UserForm
+	    toggleHere: function () {
+	        toggle();
+	    },
+
 	    render: function () {
 	        return React.createElement(
 	            "div",
 	            { id: "LogSign" },
 	            React.createElement(
 	                "div",
-	                { className: "toggle" },
+	                { className: "toggle", onClick: this.toggleHere },
 	                React.createElement("i", { className: "fa fa-times fa-pencil" }),
 	                React.createElement(
 	                    "div",

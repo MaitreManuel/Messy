@@ -8,10 +8,16 @@ var LogSign = React.createClass({
         toastr.warning('Support non trouvé', 'Erreur 404');
     },
 
+    // need because jQuery gone I don't know why and without
+    // no acces to UserForm
+    toggleHere: function () {
+        toggle();
+    },
+
     render: function () {
         return (
             <div id="LogSign">
-                <div className="toggle"><i className="fa fa-times fa-pencil"></i>
+                <div className="toggle" onClick={this.toggleHere}><i className="fa fa-times fa-pencil"></i>
                   <div className="tooltip">S''inscrire</div>
                 </div>
 
