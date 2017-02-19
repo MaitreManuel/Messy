@@ -36,9 +36,11 @@ var Message = React.createClass({
             },
             success: function (response, textStatus, xhr) {
                 console.log("GetMessage", textStatus, xhr.status);
+                toastr.success('', 'Messages Récupérés');
             },
             error: function (err, textStatus, xhr) {
                 console.log("GetMessage", textStatus, xhr.status);
+                toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
             }
         }).then(function (result) {
             var id,
@@ -106,9 +108,12 @@ var Message = React.createClass({
         })
         .then(function(response) {
             spin(false);
+            toastr.success('', 'Message Supprimé');
             me.getMessages();
         })
         .catch(function(err) {
+            spin(false);
+            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
             console.log(err);
         });
     },

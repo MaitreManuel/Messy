@@ -4,6 +4,10 @@ var UserForm = require("./UserForm.js");
 var Login = require("./Login.js");
 
 var LogSign = React.createClass({
+    pwdForget: function () {
+        toastr.warning('Support non trouvé', 'Erreur 404');
+    },
+
     render: function () {
         return (
             <div id="LogSign">
@@ -16,7 +20,7 @@ var LogSign = React.createClass({
                     <Login validate={ this.props.validate }/>
                 </div>
 
-                <div className="cta"><a href="javascript::void(0)">Mot de passe oublié ?</a></div>
+                <div className="cta"><a href="#" onClick={this.pwdForget}>Mot de passe oublié ?</a></div>
             </div>
         );
     }

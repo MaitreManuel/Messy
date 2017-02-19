@@ -32,9 +32,11 @@ var Login = React.createClass({
             },
             success: function (response, textStatus, xhr) {
                 console.log("Login", textStatus, xhr.status);
+                toastr.success('', 'Connection Réussie');
             },
             error: function (err, textStatus, xhr) {
                 console.log("Login", textStatus, xhr.status);
+                toastr.error('Mauvais login ou mot de passe', 'Connection refusée');
             }
         }).then(function (result) {
             sessionStorage.setItem("token", result.token);
@@ -44,7 +46,7 @@ var Login = React.createClass({
             $('#LogSign').css('display', 'none');
             $('#Message').css('display', 'block');
             $('.form-module').css('max-width', '800px');
-            $(window).trigger('resize');
+            //$(window).trigger('resize');
             this.props.validate();
         }.bind(this));
     },

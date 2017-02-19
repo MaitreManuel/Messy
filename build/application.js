@@ -21582,6 +21582,10 @@
 	var LogSign = React.createClass({
 	    displayName: "LogSign",
 
+	    pwdForget: function () {
+	        toastr.warning('Support non trouvé', 'Erreur 404');
+	    },
+
 	    render: function () {
 	        return React.createElement(
 	            "div",
@@ -21607,7 +21611,7 @@
 	                { className: "cta" },
 	                React.createElement(
 	                    "a",
-	                    { href: "javascript::void(0)" },
+	                    { href: "#", onClick: this.pwdForget },
 	                    "Mot de passe oubli\xE9 ?"
 	                )
 	            )
@@ -21639,35 +21643,41 @@
 	    },
 
 	    inscription: function () {
-	        $.ajax({
-	            url: url + '/join',
-	            type: 'POST',
-	            dataType: "json",
-	            headers: {
-	                "Accept": "application/json",
-	                "Content-Type": "application/json"
-	            },
-	            data: JSON.stringify(this.state.user),
-	            beforeSend: function () {
-	                spin(true);
-	            },
-	            complete: function () {
-	                spin(false);
-	            },
-	            success: function (response, textStatus, xhr) {
-	                console.log("UserForm", textStatus, xhr.status);
-	            },
-	            error: function (err, textStatus, xhr) {
-	                console.log("UserForm", textStatus, xhr.status);
-	            }
-	        }).then(function (result) {
-	            console.log('end of exec sign up');
-	            if (result < 0) {
-	                console.log('error when try to sign up');
-	            } else {
-	                console.log('success sign up');
-	            }
-	        });
+	        if (this.state.user.name) {
+	            $.ajax({
+	                url: url + '/join',
+	                type: 'POST',
+	                dataType: "json",
+	                headers: {
+	                    "Accept": "application/json",
+	                    "Content-Type": "application/json"
+	                },
+	                data: JSON.stringify(this.state.user),
+	                beforeSend: function () {
+	                    spin(true);
+	                },
+	                complete: function () {
+	                    spin(false);
+	                },
+	                success: function (response, textStatus, xhr) {
+	                    console.log("UserForm", textStatus, xhr.status);
+	                    toastr.success('', 'Inscription Réussie');
+	                },
+	                error: function (err, textStatus, xhr) {
+	                    console.log("UserForm", textStatus, xhr.status);
+	                    toastr.error('Utilisateur déjà existant', 'Inscription échouée');
+	                }
+	            }).then(function (result) {
+	                console.log('end of exec sign up');
+	                if (result < 0) {
+	                    console.log('error when try to sign up');
+	                } else {
+	                    console.log('success sign up');
+	                }
+	            });
+	        } else {
+	            toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
+	        }
 	    },
 
 	    render: function () {
@@ -21737,9 +21747,11 @@
 	            },
 	            success: function (response, textStatus, xhr) {
 	                console.log("Login", textStatus, xhr.status);
+	                toastr.success('', 'Connection Réussie');
 	            },
 	            error: function (err, textStatus, xhr) {
 	                console.log("Login", textStatus, xhr.status);
+	                toastr.error('Mauvais login ou mot de passe', 'Connection refusée');
 	            }
 	        }).then(function (result) {
 	            sessionStorage.setItem("token", result.token);
@@ -21749,7 +21761,7 @@
 	            $('#LogSign').css('display', 'none');
 	            $('#Message').css('display', 'block');
 	            $('.form-module').css('max-width', '800px');
-	            $(window).trigger('resize');
+	            //$(window).trigger('resize');
 	            this.props.validate();
 	        }.bind(this));
 	    },
@@ -21824,9 +21836,11 @@
 	            },
 	            success: function (response, textStatus, xhr) {
 	                console.log("GetMessage", textStatus, xhr.status);
+	                toastr.success('', 'Messages Récupérés');
 	            },
 	            error: function (err, textStatus, xhr) {
 	                console.log("GetMessage", textStatus, xhr.status);
+	                toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
 	            }
 	        }).then(function (result) {
 	            var id,
@@ -21909,8 +21923,11 @@
 	            }
 	        }).then(function (response) {
 	            spin(false);
+	            toastr.success('', 'Message Supprimé');
 	            me.getMessages();
 	        }).catch(function (err) {
+	            spin(false);
+	            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
 	            console.log(err);
 	        });
 	    },

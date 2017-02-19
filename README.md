@@ -1,3 +1,5 @@
+Client web réalisé avec React.
+
 # Installation du projet et Compilation des sources
 
 Pour installer les dépendances, se positionner dans `Messy/` et écrire dans le terminal :

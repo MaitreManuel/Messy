@@ -14,35 +14,41 @@ var UserForm = React.createClass({
     },
 
     inscription: function () {
-        $.ajax({
-               url : url +'/join',
-               type : 'POST',
-               dataType: "json",
-               headers: {
-                   "Accept": "application/json",
-                   "Content-Type": "application/json"
-               },
-               data: JSON.stringify(this.state.user),
-               beforeSend: function() {
-                   spin(true);
-               },
-               complete: function() {
-                   spin(false);
-               },
-               success: function (response, textStatus, xhr) {
-                   console.log("UserForm", textStatus, xhr.status);
-               },
-               error: function (err, textStatus, xhr) {
-                   console.log("UserForm", textStatus, xhr.status);
-               }
-        }).then(function (result) {
-            console.log('end of exec sign up');
-            if(result < 0) {
-                console.log('error when try to sign up');
-            } else {
-                console.log('success sign up')
-            }
-        });
+        if(this.state.user.name) {
+            $.ajax({
+                   url : url +'/join',
+                   type : 'POST',
+                   dataType: "json",
+                   headers: {
+                       "Accept": "application/json",
+                       "Content-Type": "application/json"
+                   },
+                   data: JSON.stringify(this.state.user),
+                   beforeSend: function() {
+                       spin(true);
+                   },
+                   complete: function() {
+                       spin(false);
+                   },
+                   success: function (response, textStatus, xhr) {
+                       console.log("UserForm", textStatus, xhr.status);
+                       toastr.success('', 'Inscription Réussie');
+                   },
+                   error: function (err, textStatus, xhr) {
+                       console.log("UserForm", textStatus, xhr.status);
+                       toastr.error('Utilisateur déjà existant', 'Inscription échouée');
+                   }
+            }).then(function (result) {
+                console.log('end of exec sign up');
+                if(result < 0) {
+                    console.log('error when try to sign up');
+                } else {
+                    console.log('success sign up')
+                }
+            });
+        } else {
+            toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
+        }
     },
 
     render: function () {

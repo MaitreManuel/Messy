@@ -16,9 +16,12 @@ function newMessage() {
             body: myMessage
         })
         .then(function(reponse) {
+            toastr.success('', 'Message Publié');
             location.reload();
         })
         .catch(function(err) {
+            toastr.error('Une erreur est survenue', 'Message Non Publié');
+            spin(false);
             console.log(err);
         });
 }
