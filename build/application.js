@@ -21846,18 +21846,18 @@
 	                var id = result[i].id;
 	                var src = result[i].user.image;
 	                var date = result[i].date;
-	                // .substring() ne marche pas :(
+	                // .substring() doesn't work
 	                jour = date[8] + date[9] + "/" + date[5] + date[6] + "/" + date[0] + date[1] + date[2] + date[3];
 	                heure = " à " + date[11] + date[12] + ":" + date[14] + date[15];
 	                date = jour + heure;
-	                //obligatoire pour eviter une erreur si l'URL est une image local de l'utilisateur,
-	                //un lien non http ou bien le champs non renseigné
+	                // needed to block an error if URL picture is local picture
+	                // or link no http or field empty
 	                if (!src || src[0] + src[1] + src[2] + src[3] !== "http") {
 	                    src = "./img/user.png";
 	                }
 	                messages.push(React.createElement(
 	                    "div",
-	                    { className: "post-container" },
+	                    { className: "post-container", key: "post" + i },
 	                    React.createElement(
 	                        "div",
 	                        { className: "post-thumb" },
@@ -21882,7 +21882,7 @@
 	                if (result[i].user.name === sessionStorage.getItem("name")) {
 	                    messages.push(React.createElement(
 	                        "div",
-	                        null,
+	                        { key: "delete" + i },
 	                        React.createElement(
 	                            "button",
 	                            { className: "button-delete", type: "button", onClick: () => me.deleteMessage(id) },

@@ -58,17 +58,17 @@ var Message = React.createClass({
                 var id = result[i].id;
                 var src = result[i].user.image;
                 var date = result[i].date;
-                // .substring() ne marche pas :(
+                // .substring() doesn't work
                 jour = date[8]+date[9]+"/"+date[5]+date[6]+"/"+date[0]+date[1]+date[2]+date[3];
                 heure = " à "+date[11]+date[12]+":"+date[14]+date[15];
                 date = jour+heure;
-                //obligatoire pour eviter une erreur si l'URL est une image local de l'utilisateur,
-                //un lien non http ou bien le champs non renseigné
+                // needed to block an error if URL picture is local picture
+                // or link no http or field empty
                 if(!src || src[0]+src[1]+src[2]+src[3] !== "http") {
                     src = "./img/user.png";
                 }
                 messages.push(
-                    <div className="post-container">
+                    <div className="post-container" key={"post"+ i}>
                         <div className="post-thumb"><img className="profilPic" src={src} alt="Profil Picture" /></div>
                         <div className="post-info">
                             <h3>{result[i].user.name}</h3>
@@ -81,7 +81,7 @@ var Message = React.createClass({
                 );
                 if(result[i].user.name === sessionStorage.getItem("name")) {
                     messages.push(
-                        <div>
+                        <div key={"delete"+ i}>
                             <button className="button-delete" type="button" onClick={ () => me.deleteMessage(id) }> Supprimer</button>
                         </div>
                     );
