@@ -1,6 +1,6 @@
 # Messy
 
-Client web pour le back end Messy, un micro service de publication de messages.
+Client web pour le back-end Messy, un micro-service de publication de messages.
 Il   a été réalisé avec React.
 
 Framework/Librairies utilisées :
@@ -18,7 +18,7 @@ Se positionner dans `Messy/` et taper dans le terminal :
 
     npm install    # Pour installer les dépendances
     npm run build  # Pour compiler le projet
-    npm run watch  # Pour que ca compile à chaque sauvegardes (mode développement)
+    npm run watch  # Pour que ca compile à chaque sauvegarde (mode développement)
 
 Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navigateur préféré :
 
