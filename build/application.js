@@ -21503,6 +21503,12 @@
 	        };
 	    },
 
+	    deco: function () {
+	        var state = this.state;
+	        state.logged = false;
+	        this.setState(state);
+	    },
+
 	    renderLog: function () {
 	        return React.createElement(
 	            "div",
@@ -21522,7 +21528,7 @@
 	                React.createElement(
 	                    "div",
 	                    null,
-	                    React.createElement(Message, null)
+	                    React.createElement(Message, { deco: this.deco })
 	                )
 	            )
 	        );
@@ -21644,36 +21650,29 @@
 
 	    inscription: function () {
 	        if (this.state.user.name) {
-	            $.ajax({
-	                url: url + '/join',
-	                type: 'POST',
-	                dataType: "json",
+	            spin(true);
+	            fetch(url + '/join', {
+	                method: 'POST',
 	                headers: {
-	                    "Accept": "application/json",
-	                    "Content-Type": "application/json"
+	                    'Accept': 'application/json',
+	                    'Content-Type': 'application/json'
 	                },
-	                data: JSON.stringify(this.state.user),
-	                beforeSend: function () {
-	                    spin(true);
-	                },
-	                complete: function () {
-	                    spin(false);
-	                },
-	                success: function (response, textStatus, xhr) {
-	                    console.log("UserForm", textStatus, xhr.status);
-	                    toastr.success('', 'Inscription Réussie');
-	                },
-	                error: function (err, textStatus, xhr) {
-	                    console.log("UserForm", textStatus, xhr.status);
-	                    toastr.error('Utilisateur déjà existant', 'Inscription échouée');
-	                }
-	            }).then(function (result) {
-	                console.log('end of exec sign up');
-	                if (result < 0) {
-	                    console.log('error when try to sign up');
+	                body: JSON.stringify(this.state.user)
+	            }).then(result => result.json()).then(function (result) {
+	                spin(false);
+	                if (result.error) {
+	                    if (result.error[0] + result.error[1] + result.error[2] == "Key") {
+	                        toastr.error('Utilisateur déjà existant', 'Inscription échouée');
+	                    } else {
+	                        toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
+	                    }
 	                } else {
-	                    console.log('success sign up');
+	                    toastr.success('', 'Inscription Réussie');
 	                }
+	            }).catch(function (err) {
+	                console.log(err);
+	                spin(false);
+	                toastr.error('Utilisateur déjà existant', 'Inscription échouée');
 	            });
 	        } else {
 	            toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
@@ -21730,30 +21729,17 @@
 	    },
 
 	    connection: function () {
-	        $.ajax({
-	            url: url + '/authenticate',
-	            type: 'POST',
-	            dataType: "json",
+	        var me = this;
+
+	        spin(true);
+	        fetch(url + '/authenticate', {
+	            method: 'POST',
 	            headers: {
-	                "Accept": "application/json",
-	                "Content-Type": "application/json"
+	                'Accept': 'application/json',
+	                'Content-Type': 'application/json'
 	            },
-	            data: JSON.stringify(this.state.user),
-	            beforeSend: function () {
-	                spin(true);
-	            },
-	            complete: function () {
-	                spin(false);
-	            },
-	            success: function (response, textStatus, xhr) {
-	                console.log("Login", textStatus, xhr.status);
-	                toastr.success('', 'Connection Réussie');
-	            },
-	            error: function (err, textStatus, xhr) {
-	                console.log("Login", textStatus, xhr.status);
-	                toastr.error('Mauvais login ou mot de passe', 'Connection refusée');
-	            }
-	        }).then(function (result) {
+	            body: JSON.stringify(this.state.user)
+	        }).then(result => result.json()).then(function (result) {
 	            sessionStorage.setItem("token", result.token);
 	            sessionStorage.setItem("id", result.user.id);
 	            sessionStorage.setItem("name", result.user.name);
@@ -21761,9 +21747,14 @@
 	            $('#LogSign').css('display', 'none');
 	            $('#Message').css('display', 'block');
 	            $('.form-module').css('max-width', '800px');
-	            //$(window).trigger('resize');
-	            this.props.validate();
-	        }.bind(this));
+	            spin(false);
+	            toastr.success('', 'Connection Réussie');
+	            me.props.validate();
+	        }).catch(function (err) {
+	            console.log(err);
+	            spin(false);
+	            toastr.error('Mauvais login ou mot de passe', 'Connection refusée');
+	        });
 	    },
 
 	    render: function () {
@@ -21812,42 +21803,48 @@
 	    },
 
 	    deconnexion: function () {
+	        $('.form-module').css('max-width', '320px');
+	        this.props.deco();
 	        sessionStorage.clear();
-	        location.reload();
+	    },
+
+	    deleteMessage: function (id) {
+	        var token = sessionStorage.getItem('token'),
+	            me = this;
+
+	        spin(true);
+	        fetch(url + '/u/timeline/' + id, {
+	            method: 'DELETE',
+	            headers: {
+	                'Accept': 'application/json',
+	                'Content-Type': 'application/json',
+	                'Authorization': 'Bearer:' + token
+	            }
+	        }).then(function (response) {
+	            spin(false);
+	            toastr.success('', 'Message Supprimé');
+	            me.getMessages();
+	        }).catch(function (err) {
+	            spin(false);
+	            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
+	            console.log(err);
+	        });
 	    },
 
 	    getMessages: function () {
 	        var me = this;
 
-	        $.ajax({
-	            url: url + '/u/timeline',
-	            type: 'GET',
-	            dataType: "json",
+	        spin(true);
+	        fetch(url + '/u/timeline', {
+	            method: 'GET',
 	            headers: {
 	                'Accept': 'application/json',
 	                'Content-Type': 'application/json',
 	                'Authorization': 'Bearer:' + sessionStorage.getItem("token")
-	            },
-	            beforeSend: function () {
-	                spin(true);
-	            },
-	            complete: function () {
-	                spin(false);
-	            },
-	            success: function (response, textStatus, xhr) {
-	                console.log("GetMessage", textStatus, xhr.status);
-	                toastr.success('', 'Messages Récupérés');
-	            },
-	            error: function (err, textStatus, xhr) {
-	                console.log("GetMessage", textStatus, xhr.status);
-	                toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
 	            }
-	        }).then(function (result) {
-	            var id,
-	                date = "",
-	                jour = "",
+	        }).then(result => result.json()).then(function (result) {
+	            var jour = "",
 	                heure = "",
-	                src = "",
 	                substr = "",
 	                messages = [],
 	                deleteMessage = this.deleteMessage;
@@ -21857,7 +21854,7 @@
 	            });
 
 	            for (var i = 0; i < result.length; i++) {
-	                var id = result[i].id;
+	                let id = result[i].id;
 	                var src = result[i].user.image;
 	                var date = result[i].date;
 	                // .substring() doesn't work
@@ -21905,30 +21902,13 @@
 	                    ));
 	                }
 	            }
+	            spin(false);
+	            toastr.success('', 'Messages Récupérés');
 	            me.setState({ messages: messages });
-	        });
-	    },
-
-	    deleteMessage: function (id) {
-	        var token = sessionStorage.getItem('token'),
-	            me = this;
-
-	        spin(true);
-	        fetch(url + '/u/timeline/' + id, {
-	            method: 'DELETE',
-	            headers: {
-	                'Accept': 'application/json',
-	                'Content-Type': 'application/json',
-	                'Authorization': 'Bearer:' + token
-	            }
-	        }).then(function (response) {
-	            spin(false);
-	            toastr.success('', 'Message Supprimé');
-	            me.getMessages();
 	        }).catch(function (err) {
-	            spin(false);
-	            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
 	            console.log(err);
+	            spin(false);
+	            toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
 	        });
 	    },
 

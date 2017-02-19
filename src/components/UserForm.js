@@ -15,36 +15,31 @@ var UserForm = React.createClass({
 
     inscription: function () {
         if(this.state.user.name) {
-            $.ajax({
-                   url : url +'/join',
-                   type : 'POST',
-                   dataType: "json",
-                   headers: {
-                       "Accept": "application/json",
-                       "Content-Type": "application/json"
-                   },
-                   data: JSON.stringify(this.state.user),
-                   beforeSend: function() {
-                       spin(true);
-                   },
-                   complete: function() {
-                       spin(false);
-                   },
-                   success: function (response, textStatus, xhr) {
-                       console.log("UserForm", textStatus, xhr.status);
-                       toastr.success('', 'Inscription Réussie');
-                   },
-                   error: function (err, textStatus, xhr) {
-                       console.log("UserForm", textStatus, xhr.status);
-                       toastr.error('Utilisateur déjà existant', 'Inscription échouée');
-                   }
-            }).then(function (result) {
-                console.log('end of exec sign up');
-                if(result < 0) {
-                    console.log('error when try to sign up');
+            spin(true);
+            fetch(url+'/join', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(this.state.user)
+            })
+            .then((result) => result.json())
+            .then(function (result) {
+                spin(false);
+                if(result.error) {
+                    if(result.error[0]+result.error[1]+result.error[2] == "Key") {
+                        toastr.error('Utilisateur déjà existant', 'Inscription échouée');
+                    } else {
+                        toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
+                    }
                 } else {
-                    console.log('success sign up')
+                    toastr.success('', 'Inscription Réussie');
                 }
+            }).catch(function (err) {
+                console.log(err);
+                spin(false);
+                toastr.error('Utilisateur déjà existant', 'Inscription échouée');
             });
         } else {
             toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');

@@ -15,30 +15,19 @@ var Login = React.createClass({
     },
 
     connection: function () {
-        $.ajax({
-            url : url +'/authenticate',
-            type : 'POST',
-            dataType: "json",
+        var me = this;
+        
+        spin(true);
+        fetch(url+'/authenticate', {
+            method: 'POST',
             headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
             },
-            data: JSON.stringify(this.state.user),
-            beforeSend: function() {
-                spin(true);
-            },
-            complete: function() {
-                spin(false);
-            },
-            success: function (response, textStatus, xhr) {
-                console.log("Login", textStatus, xhr.status);
-                toastr.success('', 'Connection Réussie');
-            },
-            error: function (err, textStatus, xhr) {
-                console.log("Login", textStatus, xhr.status);
-                toastr.error('Mauvais login ou mot de passe', 'Connection refusée');
-            }
-        }).then(function (result) {
+            body: JSON.stringify(this.state.user)
+        })
+        .then((result) => result.json())
+        .then(function (result) {
             sessionStorage.setItem("token", result.token);
             sessionStorage.setItem("id", result.user.id);
             sessionStorage.setItem("name", result.user.name);
@@ -46,9 +35,14 @@ var Login = React.createClass({
             $('#LogSign').css('display', 'none');
             $('#Message').css('display', 'block');
             $('.form-module').css('max-width', '800px');
-            //$(window).trigger('resize');
-            this.props.validate();
-        }.bind(this));
+            spin(false);
+            toastr.success('', 'Connection Réussie');
+            me.props.validate();
+        }).catch(function (err) {
+            console.log(err);
+            spin(false);
+            toastr.error('Mauvais login ou mot de passe', 'Connection refusée');
+        });
     },
 
     render: function () {

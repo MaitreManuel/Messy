@@ -12,6 +12,8 @@ var Message = React.createClass({
     },
 
     deconnexion: function () {
+        $('.form-module').css('max-width', '320px');
+        this.props.deco();
         sessionStorage.clear();
     },
 
@@ -43,35 +45,19 @@ var Message = React.createClass({
     getMessages: function () {
         var me = this;
 
-        $.ajax({
-            url : url +'/u/timeline',
-            type : 'GET',
-            dataType: "json",
+        spin(true);
+        fetch(url+'/u/timeline', {
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer:'+ sessionStorage.getItem("token")
-            },
-            beforeSend: function() {
-                spin(true);
-            },
-            complete: function() {
-                spin(false);
-            },
-            success: function (response, textStatus, xhr) {
-                console.log("GetMessage", textStatus, xhr.status);
-                toastr.success('', 'Messages Récupérés');
-            },
-            error: function (err, textStatus, xhr) {
-                console.log("GetMessage", textStatus, xhr.status);
-                toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
+                'Authorization' : 'Bearer:'+ sessionStorage.getItem("token")
             }
-        }).then(function (result) {
-            var id,
-                date = "",
-                jour = "",
+        })
+        .then((result) => result.json())
+        .then(function (result) {
+            var jour = "",
                 heure = "",
-                src = "",
                 substr = "",
                 messages = [],
                 deleteMessage = this.deleteMessage;
@@ -81,7 +67,7 @@ var Message = React.createClass({
             });
 
             for(var i = 0; i < result.length; i++) {
-                var id = result[i].id;
+                let id = result[i].id;
                 var src = result[i].user.image;
                 var date = result[i].date;
                 // .substring() doesn't work
@@ -113,7 +99,13 @@ var Message = React.createClass({
                     );
                 }
             }
+            spin(false);
+            toastr.success('', 'Messages Récupérés');
             me.setState({messages: messages});
+        }).catch(function (err) {
+            console.log(err);
+            spin(false);
+            toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
         });
     },
 

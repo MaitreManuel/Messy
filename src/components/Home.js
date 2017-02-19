@@ -10,6 +10,12 @@ var Home = React.createClass({
         };
     },
 
+    deco: function () {
+        var state = this.state;
+        state.logged = false;
+        this.setState(state);
+    },
+
     renderLog: function () {
         return (
             <div id="Home">
@@ -18,7 +24,7 @@ var Home = React.createClass({
                 </div>
 
                 <div className="module form-module force">
-                  <div><Message/></div>
+                  <div><Message deco={this.deco}/></div>
                 </div>
             </div>
         );
