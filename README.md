@@ -26,7 +26,7 @@ Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navi
 
 ## Fonctionnalités
 
-* Permet s'inscrire
+* Permet de s'inscrire
 * Permet de se connecter
 * Permet de voir les messages des autres utilisateurs
 * Permet de créer des nouveaux messages
