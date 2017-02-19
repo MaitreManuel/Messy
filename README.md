@@ -3,8 +3,9 @@
 Client web pour le back end Messy, un micro service de publication de messages.
 Ce site a été réalisé avec React.
 
-Librairies ajoutées :
+Framework/Librairies utilisées :
 
+    react 15.4.2
     toastr 2.1.2
 
 ## Installation du projet et Compilation des sources
