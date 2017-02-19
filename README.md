@@ -8,7 +8,7 @@ Framework/Librairies utilisées :
     react 15.4.2
     toastr 2.1.2
 
-Thèmes utilisé :
+Thème utilisé :
 
     Flat-Login # Que j'ai retravaillé, normalement il sert seulement pour la connection/inscription
 
