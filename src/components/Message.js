@@ -13,7 +13,31 @@ var Message = React.createClass({
 
     deconnexion: function () {
         sessionStorage.clear();
-        location.reload();
+    },
+
+    deleteMessage : function(id) {
+        var token = sessionStorage.getItem('token'),
+            me = this;
+
+        spin(true);
+        fetch(url+'/u/timeline/'+id, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization' : 'Bearer:'+ token,
+            }
+        })
+        .then(function(response) {
+            spin(false);
+            toastr.success('', 'Message Supprimé');
+            me.getMessages();
+        })
+        .catch(function(err) {
+            spin(false);
+            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
+            console.log(err);
+        });
     },
 
     getMessages: function () {
@@ -93,34 +117,9 @@ var Message = React.createClass({
         });
     },
 
-    deleteMessage : function(id) {
-        var token = sessionStorage.getItem('token'),
-            me = this;
-
-        spin(true);
-        fetch(url+'/u/timeline/'+id, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization' : 'Bearer:'+ token,
-            }
-        })
-        .then(function(response) {
-            spin(false);
-            toastr.success('', 'Message Supprimé');
-            me.getMessages();
-        })
-        .catch(function(err) {
-            spin(false);
-            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
-            console.log(err);
-        });
-    },
-
     newMessage: function () {
         var me = this;
-        
+
         openOverlay(true);
         $('#newMessage').click(function() {
             var url = 'https://tpiut2017.cleverapps.io',
