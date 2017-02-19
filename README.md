@@ -1,33 +1,33 @@
 # Messy
 
 Client web pour le back end Messy, un micro service de publication de messages.
-Ce site a été réalisé avec React.
+Il   a été réalisé avec React.
 
 Framework/Librairies utilisées :
 
     react 15.4.2
     toastr 2.1.2
 
-## Installation du projet et Compilation des sources
+Thèmes utilisé :
 
-Pour installer les dépendances, se positionner dans `Messy/` et écrire dans le terminal :
+    Flat-Login # Que j'ai retravaillé, normalement il sert seulement pour la connection/inscription
 
-    npm install
+## Utilisation
 
-Pour compiler le projet, rester a la racine et lancer à chaque modification de fichier :
+Se positionner dans `Messy/` et taper dans le terminal :
 
-    npm run build
-
-On préfèrera être en mode développement (pour que les sources se compilent à chaque modifiations) :
-
-    npm run watch
-
-## Lancement de l'application
+    npm install    # Pour installer les dépendances
+    npm run build  # Pour compiler le projet
+    npm run watch  # Pour que ca compile à chaque sauvegardes (mode développement)
 
 Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navigateur préféré :
 
-    Messy/index.html
+    index.html
 
-## Let's code
+## Fonctionnalités
 
-Votre application se trouve dans `Messy/src/application.js`. A vous de faire évoluer ce fichier et d'en créer d'autre pour commencer à coder votre application
+* Permet s'inscrire
+* Permet de se connecter
+* Permet de voir les messages des autres utilisateurs
+* Permet de créer des nouveaux messages
+* Permet de supprimer ses messages
