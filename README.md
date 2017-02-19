@@ -1,12 +1,14 @@
-# Installation du projet
+# Installation du projet et Compilation des sources
+
+Pour installer les dépendances, se positionner dans `Messy/` et écrire dans le terminal :
 
     npm install
 
-# Compilation des sources
+Pour compiler le projet, rester a la racine et lancer à chaque modification de fichier :
 
     npm run build
 
-et en mode développement (pour que les sources se compilent à chaque modifiations)
+On préfèrera être en mode développement (pour que les sources se compilent à chaque modifiations) :
 
     npm run watch
 
@@ -14,8 +16,8 @@ et en mode développement (pour que les sources se compilent à chaque modifiati
 
 Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navigateur préféré :
 
-    index.html
+    Messy/index.html
 
 # Let's code
 
-Votre application se trouve dans `src/application.js`. A vous de faire évoluer ce fichier et d'en créer d'autre pour commencer à coder votre application
+Votre application se trouve dans `Messy/src/application.js`. A vous de faire évoluer ce fichier et d'en créer d'autre pour commencer à coder votre application
