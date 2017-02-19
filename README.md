@@ -1,6 +1,13 @@
-Client web réalisé avec React.
+# Messy
 
-# Installation du projet et Compilation des sources
+Client web pour le back end Messy, un micro service de publication de messages.
+Ce site a été réalisé avec React.
+
+Librairies ajoutées :
+
+    toastr 2.1.2
+
+## Installation du projet et Compilation des sources
 
 Pour installer les dépendances, se positionner dans `Messy/` et écrire dans le terminal :
 
@@ -14,12 +21,12 @@ On préfèrera être en mode développement (pour que les sources se compilent �
 
     npm run watch
 
-# Lancement de l'application
+## Lancement de l'application
 
 Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navigateur préféré :
 
     Messy/index.html
 
-# Let's code
+## Let's code
 
 Votre application se trouve dans `Messy/src/application.js`. A vous de faire évoluer ce fichier et d'en créer d'autre pour commencer à coder votre application
