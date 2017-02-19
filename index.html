@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+MaitreManuel
+123456
+MaitreManuel_LeRetour
+123456
+-->
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Messy</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+        <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
+        <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="overlay" class="overlay">
+            <div id="loader"></div>
+            <div class="box-message">
+                <h2>Nouveau Message</h2>
+                <a id="closeButton" href="javascript:void(0)" class="closebtn" onClick="closeOverlay()">&times;</a>
+                <textarea id="message" name="message" placeholder="Message..."></textarea>
+                <div class="modal-button">
+                    <button class="button valider" onClick="newMessage()" type="button">Valider</button>
+                    <button class="button annuler" onClick="closeOverlay()" type="button">Annuler</button>
+                </div>
+            </div>
+        </div>
+        <div id="content"></div>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script src="js/spin.js"></script>
+        <script src="js/message.js"></script>
+        <script type="text/javascript" src="build/application.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
