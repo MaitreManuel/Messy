@@ -1,7 +1,7 @@
 # Messy
 
 Client web pour le back-end Messy, un micro-service de publication de messages.
-Il   a été réalisé avec React.
+Il a été réalisé avec React.
 
 Framework/Librairies utilisées :
 
