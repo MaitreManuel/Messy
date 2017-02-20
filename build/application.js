@@ -21851,7 +21851,6 @@
 	        }).then(result => result.json()).then(function (result) {
 	            var jour = "",
 	                heure = "",
-	                substr = "",
 	                messages = [],
 	                deleteMessage = this.deleteMessage;
 

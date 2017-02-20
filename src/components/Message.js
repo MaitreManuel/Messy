@@ -58,7 +58,6 @@ var Message = React.createClass({
         .then(function (result) {
             var jour = "",
                 heure = "",
-                substr = "",
                 messages = [],
                 deleteMessage = this.deleteMessage;
 

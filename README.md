@@ -5,8 +5,12 @@ Il   a été réalisé avec React.
 
 Framework/Librairies utilisées :
 
-    react 15.4.2
-    toastr 2.1.2
+    "babel-cli": "^6.22.2",
+    "babel-loader": "^6.2.10",
+    "babel-preset-react": "^6.22.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "toastr": "^2.1.2"
 
 Thème utilisé :
 
