@@ -15,7 +15,6 @@ function openOverlay() {
     $('.box-message').css('display', 'block');
     document.getElementById("overlay").style.width = "100%";
     document.getElementById('message').value = "";
-
 }
 
 function closeOverlay() {

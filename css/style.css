@@ -34,7 +34,7 @@ h2 {
     border-radius: 2px;
     border-top: 5px solid #33b5e5;
 }
-.button {
+.buttonOver {
     float: right;
     cursor: pointer;
     width: 100px;
@@ -301,7 +301,7 @@ body {
   border: 1px solid #33b5e5;
   color: #333333;
 }
-.form-module button {
+.form-module .button {
   cursor: pointer;
   background: #33b5e5;
   width: 100%;
@@ -312,7 +312,7 @@ body {
   -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
 }
-.form-module button:hover {
+.form-module .button:hover {
   background: #178ab4;
 }
 .form-module .cta {

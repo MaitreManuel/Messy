@@ -49,7 +49,7 @@
 
 	var Home = __webpack_require__(178);
 
-	ReactDOM.render(React.createElement(Home, null), document.getElementById("content"));
+	ReactDOM.render(React.createElement(Home, null), document.getElementById("container"));
 
 /***/ },
 /* 1 */
@@ -21493,6 +21493,7 @@
 
 	var LogSign = __webpack_require__(179);
 	var Message = __webpack_require__(182);
+	var OverlaySpin = __webpack_require__(183);
 
 	var Home = React.createClass({
 	    displayName: "Home",
@@ -21515,20 +21516,24 @@
 	            { id: "Home" },
 	            React.createElement(
 	                "div",
-	                { className: "pen-title" },
-	                React.createElement(
-	                    "h1",
-	                    null,
-	                    "Messy"
-	                )
-	            ),
-	            React.createElement(
-	                "div",
-	                { className: "module form-module force" },
+	                null,
 	                React.createElement(
 	                    "div",
-	                    null,
-	                    React.createElement(Message, { deco: this.deco })
+	                    { className: "pen-title" },
+	                    React.createElement(
+	                        "h1",
+	                        null,
+	                        "Messy"
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "module form-module force" },
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement(Message, { deco: this.deco })
+	                    )
 	                )
 	            )
 	        );
@@ -21540,20 +21545,29 @@
 	            { id: "Home" },
 	            React.createElement(
 	                "div",
-	                { className: "pen-title" },
-	                React.createElement(
-	                    "h1",
-	                    null,
-	                    "Messy"
-	                )
+	                null,
+	                React.createElement(OverlaySpin, null)
 	            ),
 	            React.createElement(
 	                "div",
-	                { className: "module form-module" },
+	                null,
 	                React.createElement(
 	                    "div",
-	                    null,
-	                    React.createElement(LogSign, { validate: this.validate })
+	                    { className: "pen-title" },
+	                    React.createElement(
+	                        "h1",
+	                        null,
+	                        "Messy"
+	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { className: "module form-module" },
+	                    React.createElement(
+	                        "div",
+	                        null,
+	                        React.createElement(LogSign, { validate: this.validate })
+	                    )
 	                )
 	            )
 	        );
@@ -21673,7 +21687,7 @@
 	                        toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
 	                    }
 	                } else {
-	                    toastr.success('', 'Inscription Réussie');
+	                    toastr.success('', 'Inscription réussie');
 	                }
 	            }).catch(function (err) {
 	                console.log(err);
@@ -21702,7 +21716,7 @@
 	                React.createElement("input", { type: "text", onInput: this.updateUser, name: "image", placeholder: "URL Image", autoComplete: "off" }),
 	                React.createElement(
 	                    "button",
-	                    { type: "button", onClick: this.inscription },
+	                    { className: "button", type: "button", onClick: this.inscription },
 	                    "Inscription"
 	                )
 	            )
@@ -21779,7 +21793,7 @@
 	                React.createElement("input", { type: "password", onInput: this.updateUser, name: "password", placeholder: "Mot de passe" }),
 	                React.createElement(
 	                    "button",
-	                    { type: "button", onClick: this.connection },
+	                    { className: "button", type: "button", onClick: this.connection },
 	                    "Connection"
 	                )
 	            )
@@ -21795,16 +21809,17 @@
 
 	var React = __webpack_require__(1);
 
+	var OverlaySpin = __webpack_require__(183);
 	const url = 'https://tpiut2017.cleverapps.io';
 
 	var Message = React.createClass({
 	    displayName: "Message",
 
 	    getInitialState: function () {
-	        return { messages: "" };
+	        return { messages: [] };
 	    },
 
-	    componentWillMount: function () {
+	    componentDidMount: function () {
 	        this.getMessages();
 	    },
 
@@ -21828,11 +21843,11 @@
 	            }
 	        }).then(function (response) {
 	            spin(false);
-	            toastr.success('', 'Message Supprimé');
+	            toastr.success('', 'Message supprimé');
 	            me.getMessages();
 	        }).catch(function (err) {
 	            spin(false);
-	            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
+	            toastr.error('Une erreur est survenue', 'Message non supprimé');
 	            console.log(err);
 	        });
 	    },
@@ -21867,8 +21882,8 @@
 	                heure = " à " + date[11] + date[12] + ":" + date[14] + date[15];
 	                date = jour + heure;
 	                // needed to block an error if URL picture is local picture
-	                // or link no http or field empty
-	                if (!src || src[0] + src[1] + src[2] + src[3] !== "http") {
+	                // or link no http or field empty or URL is not an image
+	                if (!src || src[0] + src[1] + src[2] + src[3] !== "http" || src && src.match(/\.(jpeg|jpg|gif|png|svg|bmp|ico)/i) == null) {
 	                    src = "./img/user.png";
 	                }
 	                messages.push(React.createElement(
@@ -21901,51 +21916,24 @@
 	                        { key: "delete" + i },
 	                        React.createElement(
 	                            "button",
-	                            { className: "button-delete", type: "button", onClick: () => me.deleteMessage(id) },
+	                            { className: "button button-delete", type: "button", onClick: () => me.deleteMessage(id) },
 	                            " Supprimer"
 	                        )
 	                    ));
 	                }
 	            }
 	            spin(false);
-	            toastr.success('', 'Messages Récupérés');
+	            toastr.success('', 'Messages récupérés');
 	            me.setState({ messages: messages });
 	        }).catch(function (err) {
 	            console.log(err);
 	            spin(false);
-	            toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
+	            toastr.error('Une erreur est survenue', 'Messages non récupérés');
 	        });
 	    },
 
 	    newMessage: function () {
-	        var me = this;
-
-	        openOverlay(true);
-	        $('#newMessage').click(function () {
-	            var url = 'https://tpiut2017.cleverapps.io',
-	                myMessage = JSON.stringify({
-	                'message': document.getElementById('message').value
-	            });
-
-	            spin(true);
-	            fetch(url + '/u/timeline', {
-	                method: 'POST',
-	                headers: {
-	                    'Accept': 'application/json',
-	                    'Content-Type': 'application/json',
-	                    'Content-Length': myMessage.length,
-	                    'Authorization': 'Bearer:' + sessionStorage.getItem("token")
-	                },
-	                body: myMessage
-	            }).then(function (reponse) {
-	                toastr.success('', 'Message Publié');
-	                me.getMessages();
-	            }).catch(function (err) {
-	                toastr.error('Une erreur est survenue', 'Message Non Publié');
-	                spin(false);
-	                console.log(err);
-	            });
-	        });
+	        openOverlay();
 	    },
 
 	    render: function () {
@@ -21958,14 +21946,14 @@
 	        };
 	        var src = user.image;
 
-	        if (!src || src[0] + src[1] + src[2] + src[3] !== "http") {
+	        if (!src || src[0] + src[1] + src[2] + src[3] !== "http" || src && src.match(/\.(jpeg|jpg|gif|png|svg|bmp|ico)/i) == null) {
 	            src = "./img/user.png";
 	        }
 
 	        return React.createElement(
 	            "div",
 	            { id: "Message" },
-	            React.createElement("div", null),
+	            React.createElement(OverlaySpin, { getMessages: () => this.getMessages() }),
 	            React.createElement(
 	                "div",
 	                { className: "content" },
@@ -22010,13 +21998,13 @@
 	                    { className: "pos-button" },
 	                    React.createElement(
 	                        "button",
-	                        { type: "button", onClick: this.newMessage },
+	                        { className: "button", type: "button", onClick: this.newMessage },
 	                        React.createElement("i", { className: "fa fa-times fa-pencil" }),
 	                        " Nouveaux Messages"
 	                    ),
 	                    React.createElement(
 	                        "button",
-	                        { type: "button", onClick: this.getMessages },
+	                        { className: "button", type: "button", onClick: this.getMessages },
 	                        React.createElement("i", { className: "fa fa-times fa-download" }),
 	                        " R\xE9cup\xE9rer Message"
 	                    )
@@ -22036,6 +22024,105 @@
 	});
 
 	module.exports = Message;
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Message = __webpack_require__(182);
+
+	const url = 'https://tpiut2017.cleverapps.io';
+
+	var OverlaySpin = React.createClass({
+	    displayName: "OverlaySpin",
+
+	    getInitialState: function () {
+	        return { message: "" };
+	    },
+
+	    updateMessage: function (event) {
+	        var message = this.state.message;
+	        message = event.target.value;
+	        this.setState({ message: message });
+	    },
+
+	    closeOverlay: function () {
+	        closeOverlay();
+	    },
+
+	    newMessage: function () {
+	        var me = this,
+	            state = this.state,
+	            myMessage = JSON.stringify({
+	            message: this.state.message
+	        });
+
+	        spin(true);
+	        fetch(url + '/u/timeline', {
+	            method: 'POST',
+	            headers: {
+	                'Accept': 'application/json',
+	                'Content-Type': 'application/json',
+	                'Content-Length': myMessage.length,
+	                'Authorization': 'Bearer:' + sessionStorage.getItem("token")
+	            },
+	            body: myMessage
+	        }).then(function (reponse) {
+	            toastr.success('', 'Message Publié');
+	            spin(false);
+	            me.props.getMessages();
+	        }).catch(function (err) {
+	            toastr.error('Une erreur est survenue', 'Message non publié');
+	            spin(false);
+	            console.log(err);
+	        });
+	    },
+
+	    render: function () {
+	        return React.createElement(
+	            "div",
+	            { id: "OverlaySpin" },
+	            React.createElement(
+	                "div",
+	                { id: "overlay", className: "overlay" },
+	                React.createElement("div", { id: "loader" }),
+	                React.createElement(
+	                    "div",
+	                    { className: "box-message" },
+	                    React.createElement(
+	                        "h2",
+	                        null,
+	                        "Nouveau Message"
+	                    ),
+	                    React.createElement(
+	                        "a",
+	                        { id: "closeButton", href: "javascript:void(0)", className: "closebtn", onClick: this.closeOverlay },
+	                        "\xD7"
+	                    ),
+	                    React.createElement("textarea", { onInput: this.updateMessage, id: "message", name: "message", placeholder: "Message..." }),
+	                    React.createElement(
+	                        "div",
+	                        { className: "modal-button" },
+	                        React.createElement(
+	                            "button",
+	                            { className: "buttonOver valider", onClick: this.newMessage, type: "button" },
+	                            "Valider"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { className: "buttonOver annuler", onClick: this.closeOverlay, type: "button" },
+	                            "Annuler"
+	                        )
+	                    )
+	                )
+	            )
+	        );
+	    }
+	});
+
+	module.exports = OverlaySpin;
 
 /***/ }
 /******/ ]);

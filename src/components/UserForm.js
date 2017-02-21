@@ -34,7 +34,7 @@ var UserForm = React.createClass({
                         toastr.error('Veuillez remplir tous les champs', 'Inscription échouée');
                     }
                 } else {
-                    toastr.success('', 'Inscription Réussie');
+                    toastr.success('', 'Inscription réussie');
                 }
             }).catch(function (err) {
                 console.log(err);
@@ -54,7 +54,7 @@ var UserForm = React.createClass({
                   <input type="text" onInput={this.updateUser} name="name" placeholder="Pseudo" autoComplete="off"/>
                   <input type="password" onInput={this.updateUser} name="password" placeholder="Mot de passe"/>
                   <input type="text" onInput={this.updateUser} name="image" placeholder="URL Image" autoComplete="off"/>
-                  <button type="button" onClick={this.inscription}>Inscription</button>
+                  <button className="button" type="button" onClick={this.inscription}>Inscription</button>
                 </form>
             </div>
         );

@@ -16,7 +16,7 @@ var Login = React.createClass({
 
     connection: function () {
         var me = this;
-        
+
         spin(true);
         fetch(url+'/authenticate', {
             method: 'POST',
@@ -52,7 +52,7 @@ var Login = React.createClass({
                   <h2>Se Connecter</h2>
                   <input type="text" onInput={this.updateUser} name="name" placeholder="Pseudo"/>
                   <input type="password" onInput={this.updateUser} name="password" placeholder="Mot de passe"/>
-                  <button type="button" onClick={this.connection}>Connection</button>
+                  <button className="button" type="button" onClick={this.connection}>Connection</button>
                 </form>
             </div>
         );

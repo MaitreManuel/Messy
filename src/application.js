@@ -3,4 +3,4 @@ var ReactDOM = require("react-dom");
 
 var Home = require("./components/Home.js");
 
-ReactDOM.render(<Home/>, document.getElementById("content"));
+ReactDOM.render(<Home/>, document.getElementById("container"));

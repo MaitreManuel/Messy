@@ -1,13 +1,14 @@
 var React = require("react");
 
+var OverlaySpin = require("./OverlaySpin.js");
 const url = 'https://tpiut2017.cleverapps.io';
 
 var Message = React.createClass({
     getInitialState: function() {
-        return { messages: "" };
+        return { messages: [] };
     },
 
-    componentWillMount: function() {
+    componentDidMount: function() {
         this.getMessages();
     },
 
@@ -32,12 +33,12 @@ var Message = React.createClass({
         })
         .then(function(response) {
             spin(false);
-            toastr.success('', 'Message Supprimé');
+            toastr.success('', 'Message supprimé');
             me.getMessages();
         })
         .catch(function(err) {
             spin(false);
-            toastr.error('Une erreur est survenue', 'Message Non Supprimé');
+            toastr.error('Une erreur est survenue', 'Message non supprimé');
             console.log(err);
         });
     },
@@ -74,8 +75,8 @@ var Message = React.createClass({
                 heure = " à "+date[11]+date[12]+":"+date[14]+date[15];
                 date = jour+heure;
                 // needed to block an error if URL picture is local picture
-                // or link no http or field empty
-                if(!src || src[0]+src[1]+src[2]+src[3] !== "http") {
+                // or link no http or field empty or URL is not an image
+                if(!src || src[0]+src[1]+src[2]+src[3] !== "http" || (src && src.match(/\.(jpeg|jpg|gif|png|svg|bmp|ico)/i) == null)) {
                     src = "./img/user.png";
                 }
                 messages.push(
@@ -93,52 +94,23 @@ var Message = React.createClass({
                 if(result[i].user.name === sessionStorage.getItem("name")) {
                     messages.push(
                         <div key={"delete"+ i}>
-                            <button className="button-delete" type="button" onClick={ () => me.deleteMessage(id) }> Supprimer</button>
+                            <button className="button button-delete" type="button" onClick={ () => me.deleteMessage(id) }> Supprimer</button>
                         </div>
                     );
                 }
             }
             spin(false);
-            toastr.success('', 'Messages Récupérés');
+            toastr.success('', 'Messages récupérés');
             me.setState({messages: messages});
         }).catch(function (err) {
             console.log(err);
             spin(false);
-            toastr.error('Une erreur est survenue', 'Messages Non Récupérés');
+            toastr.error('Une erreur est survenue', 'Messages non récupérés');
         });
     },
 
     newMessage: function () {
-        var me = this;
-
-        openOverlay(true);
-        $('#newMessage').click(function() {
-            var url = 'https://tpiut2017.cleverapps.io',
-                myMessage = JSON.stringify({
-                    'message' : document.getElementById('message').value
-            });
-
-            spin(true);
-            fetch(url+'/u/timeline', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Content-Length' : myMessage.length,
-                    'Authorization' : 'Bearer:'+ sessionStorage.getItem("token")
-                },
-                body: myMessage
-            })
-            .then(function(reponse) {
-                toastr.success('', 'Message Publié');
-                me.getMessages();
-            })
-            .catch(function(err) {
-                toastr.error('Une erreur est survenue', 'Message Non Publié');
-                spin(false);
-                console.log(err);
-            });
-        });
+        openOverlay();
     },
 
     render: function () {
@@ -151,13 +123,13 @@ var Message = React.createClass({
             };
         var src = user.image;
 
-        if(!src || src[0]+src[1]+src[2]+src[3] !== "http") {
+        if(!src || src[0]+src[1]+src[2]+src[3] !== "http" || (src && src.match(/\.(jpeg|jpg|gif|png|svg|bmp|ico)/i) == null)) {
             src = "./img/user.png";
         }
 
         return (
             <div id="Message">
-                <div></div>
+                <OverlaySpin getMessages={() => this.getMessages()}/>
 
                 <div className="content">
                     <div className="user">
@@ -173,8 +145,8 @@ var Message = React.createClass({
                         <h1>Messages</h1>
                     </div>
                     <div className="pos-button">
-                        <button type="button" onClick={this.newMessage}><i className="fa fa-times fa-pencil"></i> Nouveaux Messages</button>
-                        <button type="button" onClick={this.getMessages}><i className="fa fa-times fa-download"></i> Récupérer Message</button>
+                        <button className="button" type="button" onClick={this.newMessage}><i className="fa fa-times fa-pencil"></i> Nouveaux Messages</button>
+                        <button className="button" type="button" onClick={this.getMessages}><i className="fa fa-times fa-download"></i> Récupérer Message</button>
                     </div>
                     <br/><br/>
                     {messages}
