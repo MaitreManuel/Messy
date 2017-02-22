@@ -35,3 +35,7 @@ Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navi
 * Permet de voir les messages des autres utilisateurs
 * Permet de créer des nouveaux messages
 * Permet de supprimer ses messages
+
+## Licence
+
+[MIT](https://choosealicense.com/licenses/mit/#)
