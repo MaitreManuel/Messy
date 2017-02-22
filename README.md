@@ -38,4 +38,4 @@ Une fois compilée, vous pouvez lancer l'application en ouvrant, dans votre navi
 
 ## Licence
 
-[MIT](https://choosealicense.com/licenses/mit/#)
+<a href="https://choosealicense.com/licenses/mit/#" target="_blank">MIT</a>
