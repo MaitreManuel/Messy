@@ -1,3 +1,5 @@
+/!\ SERVER COUPE, REQUETES NON FONCTIONNELLES /!\
+
 # Messy
 
 Client web pour le back-end Messy, un micro-service de publication de messages.
